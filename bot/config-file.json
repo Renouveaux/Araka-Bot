@@ -1,0 +1,38 @@
+{
+  "protectedKeys": [
+    "email",
+    "password"
+  ],
+  "allowedChannelIds": {},
+  "global": {
+    "share": "http://codeshare.io/new",
+    "paste" : "http://www.paste.ee",
+    "screen": "https://lut.im"
+  },
+  "API": {
+    "pastebin": {
+      "key": "902a3c76fc24bfa5e3080e0f18af5333",
+      "username": "Renouveaux",
+      "password": "geme@ux1988"
+    },
+    "pastee": {
+      "key": "1cbc17c1a8bc119df49f5b3ab3c63534"
+    },
+    "bitly": {
+      "key": "1b8560b40b6b7938859480a59dfa19234d34813e"
+    }
+  },
+  "admin": [
+    "86952681251307520",
+    "85153608760324096"
+  ],
+  "limit" :{
+    "url" : 150
+  },
+  "botName": "raton",
+  "debug": false,
+  "autoReconnect": true,
+  "autorun": true,
+  "commandPrefix": "!",
+  "token": "MTYwNTEzNjA5NTE5MDcxMjM0.Cc4Rcg.a0lgYKUeJIqyKoSMQ_cOX7lsAVs"
+}

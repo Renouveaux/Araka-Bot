@@ -1,0 +1,3 @@
+{"username": "raton", "bot": true, "token": "MTYwNTEzNjA5NTE5MDcxMjM0.Cc4Rcg.a0lgYKUeJIqyKoSMQ_cOX7lsAVs", "avatar": null, "discriminator": "4506", "id": "160513609519071234"}
+
+{"secret": "1Iw7r59qHE1dJHfMMTf9XvsL5caiwDmM", "redirect_uris": ["http://mee6-web.renouveaux.lan:5000/servers", "http://mee6-web.renouveaux.lan:5000/confirm_login"], "description": "Un bot pour r\u00e9pondre aux besoins des gens", "name": "raton", "id": "160513608176893953", "icon": null}
