@@ -165,7 +165,7 @@ var createBot = function(){
 
 				if(err) console.log(err);
 
-				//getAllBotInfo(body);
+				getAllBotInfo(body);
 
 			});
 
@@ -249,7 +249,7 @@ var useExistingBot = function(botList){
 		choices: List
 	}
 	], function( answers ) {
-		//console.log( JSON.stringify(answers, null, "  ") );
+		
 		let botInfo = botList[answers.bot];
 
 		if(typeof botInfo.bot === 'undefined'){
@@ -278,7 +278,6 @@ var useExistingBot = function(botList){
 		}else{
 			whatNext();
 		}
-
 
 	});
 
