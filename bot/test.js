@@ -4,6 +4,8 @@ var colors = require("colors");
 var request = require('request');
 
 let infos = [];
+let user = {};
+let bot = {};
 
 console.log("											");
 console.log("                 --          --			");
@@ -33,6 +35,9 @@ console.log("A valid Discord account with a confirmed mail".magenta);
 console.log("											");
 console.log("...............................................".magenta);
 
+
+
+// Is the user have a account from discord
 inquirer.prompt([{
 	type: "list",
 	name: "token",
@@ -49,11 +54,17 @@ inquirer.prompt([{
 	}
 });
 
+
 var getToken = function(){
 	inquirer.prompt([{
 		type: "input",
 		message: 'Your email',
-		name: 'email'
+		name: 'email',
+		validate: function(data){
+			if(data.match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)){
+				return true
+			}
+		}
 	},{
 		type: "password",
 		message: "Your password account",
@@ -74,25 +85,41 @@ var getToken = function(){
 			}, function(err,httpResponse,body){
 
 				if(body.token){
-					infos.push({'token': body.token})
+					user.token = body.token;
+					//infos.push({'token': body.token})
 
+					request.get({
+						url: 'https://discordapp.com/api/oauth2/applications',
+						headers: {
+							Authorization: body.token
+						}
+					}, function(err, httpResponse, body){
 
-					inquirer.prompt([{
-						type: "list",
-						name: "botExist",
-						message: "Do you already have a bot ?",
-						choices: [
-						"Yes",
-						"No"
-						]
-					}], function( answers ) {
-						if(answers.botExist === "Yes"){
-							getBotInfos();
+						
+						if(JSON.parse(body).length > 0){ // If a bot account exist for this user
+
+							inquirer.prompt([{
+								type: "list",
+								name: "botExist",
+								message: "You already have bot, do you wana use one of them ?",
+								choices: [
+								"Yes",
+								"No"
+								]
+							}], function( answers ) {
+								
+								if(answers.botExist === "Yes"){
+									useExistingBot(JSON.parse(body));
+								}else{
+									createBot();
+								}
+
+							});
+
 						}else{
-							getBotCreate();
+							createBot();
 						}
 					});
-
 					
 				}else if(body.email){
 					console.log("Your email doesn't exist !!".red);
@@ -106,7 +133,7 @@ var getToken = function(){
 	})
 }
 
-var getBotCreate = function(){
+var createBot = function(){
 
 	inquirer.prompt([{
 		type: 'input',
@@ -118,29 +145,54 @@ var getBotCreate = function(){
 		name: 'description'
 	},{
 		type: "input",
-		message: "Give me the adresse that we can have access to the bot server, ex: http://araka.bot.com",
+		message: "Give me the adresse that we can have access to the bot server",
 		name: "redirect_uris",
-		default: "array"
+		default: "http://localhost",
+		validate: function(data){
+			if(data.match(/^(https?:\/\/)([\da-z\.-]+)(\.([a-z\.]{2,6})([\/\w \.-]*)*)?\/?$/)){
+				return true
+			}
+		}
 	}
 	], function(payload){
-		infos.push(payload);
 
 		request.post({
 			url:'https://discordapp.com/api/oauth2/applications', 
 			json: payload,
 			headers: {
-				Authorization: infos[0].token
+				Authorization: user.token
 			}}, function(err,httpResponse,body){
 
 				if(err) console.log(err);
 
-				console.log(body);
-
-				configureApp();
+				//getAllBotInfo(body);
 
 			});
 
 	});
+
+}
+
+var getAllBotInfo = function(data){
+
+	request.post({
+		url: 'https://discordapp.com/api/oauth2/applications/'+ data.id +'/bot',
+		headers: {
+			Authorization: user.token
+		},
+		json: {}
+	}, function(err, httpResponse, body){
+
+		if(err) {
+			console.log(err);
+			return false;
+		}else{
+			bot = body;
+			whatNext();			
+		}
+
+	})
+
 
 }
 
@@ -181,8 +233,101 @@ var getBotInfos = function(){
 	})
 }
 
+var useExistingBot = function(botList){
+
+	let List = [];
+
+	for (var i=0; i < botList.length ; ++i){		
+		List.push({name: botList[i].name, value: i});
+	}
+
+	inquirer.prompt([
+	{
+		type: "rawlist",
+		name: "bot",
+		message: "Select the bot you want ?",
+		choices: List
+	}
+	], function( answers ) {
+		//console.log( JSON.stringify(answers, null, "  ") );
+		let botInfo = botList[answers.bot];
+
+		if(typeof botInfo.bot === 'undefined'){
+			inquirer.prompt([
+			{
+				type: "list",
+				name: "select",
+				message: "This is not a bot account, do you wanna convert it ?",
+				choices: [
+				{
+					name: "Yes",
+					value: function(){
+						getAllBotInfo(botInfo);
+					}
+				},{
+					name: "No",
+					value: function(){						
+						console.log("Ok, see you soon !!");
+					}
+				}
+				]
+			}
+			], function(answer){
+				answer.select();
+			})
+		}else{
+			whatNext();
+		}
+
+
+	});
+
+
+}
+
 var configureApp = function(){
 	console.log("App configuration initiated");
+	console.log("This part was not implemented yet");
+}
 
-	console.log(infos);
+
+var deleteBot = function(botId){
+
+	request.del({
+		url: 'https://discordapp.com/api/oauth2/applications/'+ botId,
+		headers: {
+			Authorization: data.botToken
+		}
+	}, function(err, httpResponse, body){
+
+	})
+
+}
+
+var whatNext = function(){
+	inquirer.prompt([
+	{
+		type: "list",
+		name: "select",
+		message: "Your bot is create, What next ?",
+		choices: [
+		{
+			name: "Configure the app",
+			value: function(){
+				configureApp();
+			}
+		},{
+			name: "Get the bot Information and quit",
+			value: function(){
+				console.log("Your token : " + user.token);
+				console.log("                          ");
+				console.log("The bot data :");
+				console.log(bot);
+			}
+		}
+		]
+	}
+	], function(answer){
+		answer.select();
+	})
 }
