@@ -20,7 +20,7 @@ console.log("	Welcome to the Araka configurator		".gray);
 console.log("											");
 console.log("											");
 
-console.log("We are going to create a fresh bot for Discord using API and autoconfigure the bot server".gray);
+console.log("We are going to create a fresh bot for Discord using API and autoconfigure the server".gray);
 
 console.log("											");
 console.log("											");
@@ -106,13 +106,12 @@ var getToken = function(){
 	})
 }
 
-
 var getBotCreate = function(){
 
 	inquirer.prompt([{
 		type: 'input',
 		message: 'Enter the name of your Bot',
-		name: 'botName'
+		name: 'name'
 	},{
 		type: 'input',
 		message: 'Tel me about your bot in few words',
@@ -120,10 +119,27 @@ var getBotCreate = function(){
 	},{
 		type: "input",
 		message: "Give me the adresse that we can have access to the bot server, ex: http://araka.bot.com",
-		name: "redirect_uris"
+		name: "redirect_uris",
+		default: "array"
 	}
-	], function(data){
-		infos.push(data);
+	], function(payload){
+		infos.push(payload);
+
+		request.post({
+			url:'https://discordapp.com/api/oauth2/applications', 
+			json: payload,
+			headers: {
+				Authorization: infos[0].token
+			}}, function(err,httpResponse,body){
+
+				if(err) console.log(err);
+
+				console.log(body);
+
+				configureApp();
+
+			});
+
 	});
 
 }
@@ -132,7 +148,13 @@ var getBotInfos = function(){
 	inquirer.prompt([{
 		type: 'input',
 		message: 'I need the bot Token',
-		name: 'botToken'
+		name: 'botToken',
+		validate: function( answer ) {
+			if ( answer.length < 1 ) {
+				return "This is nothing, I need a token";
+			}
+			return true;
+		}
 	}], function(data){
 
 		request.get({
@@ -141,9 +163,26 @@ var getBotInfos = function(){
 				Authorization: data.botToken
 			}}, function(err,httpResponse,body){
 
-				console.log(body);
+				let data = JSON.parse(body);
+
+				if(data.bot){
+					console.log("This is a valid bot token".green);
+					console.log("I will now create the configuration of the server".green);
+					infos.push(data);
+					configureApp();
+				}else{
+					console.log("Your are not enter a correct bot token".red);
+					console.log("I need the bot token, not your token.".red);
+					console.log("Thanks to retry or create a new one".red);
+				}
 
 			});
 
 	})
+}
+
+var configureApp = function(){
+	console.log("App configuration initiated");
+
+	console.log(infos);
 }
