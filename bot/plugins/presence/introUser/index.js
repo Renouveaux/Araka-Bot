@@ -20,13 +20,34 @@ Respectez les channels Privé 1, 2 et 3. Si vous voyez des personnes dedans, et 
 Enfin, faites-vous plaisir, et partagez. Notez qu'il n'est pas interdit de parler de tout et de rien.
 `;
 
+import PouchDB from 'pouchdb';
+PouchDB.plugin(require('pouchdb-upsert'));
+
 module.exports = function(data, Config, Helpers){
 
-	Bot.sendMessage({
-		'to': data.userID,
-		'message': message
-	});
+	let db = new PouchDB('dataBase/user');
 
+	if(data.rawEvent.d.status === 'online'){
+
+		db.putIfNotExists(data.userID, 
+		{
+			_id: data.userID,
+			pseudo: data.user,
+			avatar: data.rawEvent.d.user.avatar,
+			lastMessage : Date.now(),
+			XP : 0
+		}, function(err, res){
+
+			if(res.updated){
+				Bot.sendMessage({
+					'to': data.userID,
+					'message': message
+				});
+			}
+
+		});
+
+	}
 
 
 }

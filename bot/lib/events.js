@@ -4,9 +4,9 @@
 This include all events when something happen on discord chat.
 */
 
-import commands from './commands';
-import database	from './db';
-import filters	from './filters';
+import onCommands from '../plugins/commands';
+import onMessages from '../plugins/messages';
+import onPresence from '../plugins/presence';
 
 let State = {
 	'connected': true,
@@ -88,37 +88,39 @@ module.exports = {
 
 					Helpers.commandExist(key, function(err, res){
 
-						if(err) return;
+						if(err) 
+							return false;
 
-						if(res.active) return;
+						if(res !== null && res.active){
 
-						if(res.adminCommand && Config.admin.indexOf(userID) == -1) {
+							if(res.adminCommand && Config.admin.indexOf(userID) == -1) {				
 
-							let message = `
-							@${user} Vous n\'avez pas la permission d\'effectuer cette commande
-							`;
+								let message = `@${user} Vous n\'avez pas la permission d\'effectuer cette commande`;
 
-							Bot.sendMessage({
-								'to': userID,
-								'message': message
-							})
+								Bot.sendMessage({
+									'to': userID,
+									'message': message
+								})
 
-							return;
+								return;
 
-						}
+							}
 
-						if(res.function){
+							if(res.fctn){
 
-							commands(data, Config, Helpers, Logger);
 
-						}else{
+								onCommands(data, Config, Helpers, Logger);
 
-							let channel = !res.private ? channelID : userID;
+							}else{
 
-							Bot.sendMessage({
-								'to': channel,
-								'message': res.message
-							});
+								let channel = !res.private ? channelID : userID;
+
+								Bot.sendMessage({
+									'to': channel,
+									'message': res.message
+								});
+
+							}
 
 						}
 
@@ -129,9 +131,7 @@ module.exports = {
 
 
 			}else{
-				filters(data, Config, Helpers);
-
-				// Gain XP level
+				onMessages(data, Config, Helpers, Logger);
 			}
 
 
@@ -148,7 +148,7 @@ module.exports = {
 				'rawEvent': rawEvent
 			}
 			
-			database(data, Config, Helpers);
+			onPresence(data, Config, Helpers, Logger);
 		})
 
 

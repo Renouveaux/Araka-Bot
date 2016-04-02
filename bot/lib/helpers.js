@@ -1,10 +1,8 @@
 'use strict';
 
 import fs 			from 'fs-extra';
-import PouchDB 		from 'pouchdb';
 
 module.exports = {
-
 
 	checkIsCommand : function(message){
 		if(message.slice(0, this.getConfig().commandPrefix.length)[0] == this.getConfig().commandPrefix) 
@@ -70,13 +68,14 @@ module.exports = {
 	},
 
 	commandExist: function(command, cb){
-		let commands = new PouchDB('dataBase/commands');
 
-		commands.get(command, function(err, value){
-			cb(err, value);
-		});
-
+		Commands.findOne({ 'name': command }, function (err, data) {
+			cb(err, data);
+		})
+		
 
 	}
 
 }
+
+

@@ -1,41 +1,50 @@
+
 module.exports = function(data, Config, Helpers) {
 
-    let Pastee = require('pastee');
+    if((data.message.match(/\n/g)||[]).length >= 5){
 
-    isCode(data.message, function(format) {
+        Configs.findOne({ 'name' : 'code' }, function (err, res) {
 
-        if (format) {
+            let Pastee = require('pastee');
 
-            Bot.deleteMessage({
-                channel: data.channelID,
-                messageID: data.rawEvent.d.id
-            });
+            isCode(data.message, function(format) {
 
-            let paste = new Pastee(Config.API.pastee.key);
+                if (format) {
 
-            paste.paste({
-                paste: data.message,
-                description: data.user,
-                language: format.toLowerCase(),
-                expire: "86400"
-            }, function(err, res) {
-
-                if (err) {
-                    Bot.sendMessage({
-                        'to': data.channelID,
-                        'message': "Désolé, il m'est impossible de créer une url pour ce code."
+                    Bot.deleteMessage({
+                        channel: data.channelID,
+                        messageID: data.rawEvent.d.id
                     });
-                } else {
-                    Bot.sendMessage({
-                        'to': data.channelID,
-                        'message': 'Woops trop de code @' + data.user + " ! " + res.link
+
+                    let paste = new Pastee(res.token);
+
+                    paste.paste({
+                        paste: data.message,
+                        description: data.user,
+                        language: format.toLowerCase(),
+                        expire: "86400"
+                    }, function(err, res) {
+
+                        if (err) {
+                            Bot.sendMessage({
+                                'to': data.channelID,
+                                'message': "Désolé, il m'est impossible de créer une url pour ce code."
+                            });
+                        } else {
+                            Bot.sendMessage({
+                                'to': data.channelID,
+                                'message': 'Woops trop de code @' + data.user + " ! " + res.link
+                            });
+                        }
                     });
+
                 }
+
             });
 
-        }
+        });
 
-    });
+    }
 
 
 }
