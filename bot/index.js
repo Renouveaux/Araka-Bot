@@ -1,27 +1,22 @@
 // Import bot librairie
-import DiscordClient 	  from 'discord.io';
+var DiscordClient = require('discord.io');
 
 // Import system utilities
-import events 			  from 'events';
-import fs 				    from 'fs-extra';
-import PrettyError 		from 'pretty-error';
-import Promise 			  from 'promise';
-import utilconsole 		from 'util-console.log';
+var events        = require('events');
+var fs            = require('fs-extra');
 
 // Import extra librairies
-import mongoose 			from 'mongoose'; // Database
-import winston 			  from 'winston'; // Logger
-import chalk 			    from 'chalk';
+var mongoose      = require('mongoose');
+var winston       = require('winston');
+var chalk         = require('chalk');
 
 // Import modules
-import Events 			from './lib/events';
-import Helpers 			from './lib/helpers';
+var Events        = require('./lib/events');
+var Helpers       = require('./lib/helpers');
 
 // Initialiser external librairies
-//utilconsole.configure();
 console.log("initialise librairies");
-PrettyError.start();
-let Config = Helpers.getConfig(false);
+var Config = Helpers.getConfig(false);
 
 // Winston init
 
@@ -32,9 +27,9 @@ var logger = new (winston.Logger)({
   ]
 });
 
-let connectStr = Config.database.prefix + '://' + Config.database.host + ':' + Config.database.port + '/' + Config.database.base;
+var connectStr = Config.database.prefix + '://' + Config.database.host + ':' + Config.database.port + '/' + Config.database.base;
 mongoose.connect(connectStr, {server:{auto_reconnect:true}});
-let db = mongoose.connection;
+var db = mongoose.connection;
 
 /**
   *
@@ -59,7 +54,7 @@ db.on('disconnected', function() {
 });
 
 // Bootstrap Models
-import './plugins/models';
+require('./plugins/models');
 
 winston.handleExceptions(new winston.transports.File({ filename: '../exceptions.log' }))
 

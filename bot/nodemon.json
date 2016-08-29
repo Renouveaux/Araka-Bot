@@ -1,8 +1,4 @@
 {
-	"execMap": {
-		"js": "traceur-runner"
-	},
-	"ext": "js json html css",
 	"ignore": [
 		".git",
 		"node_modules/**/node_modules",

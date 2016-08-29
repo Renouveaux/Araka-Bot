@@ -3,12 +3,11 @@
 /*
 This include all events when something happen on discord chat.
 */
+var onCommands 		= require('../plugins/commands');
+var onMessages 		= require('../plugins/messages');
+var onPresence 		= require('../plugins/presence');
 
-import onCommands from '../plugins/commands';
-import onMessages from '../plugins/messages';
-import onPresence from '../plugins/presence';
-
-let State = {
+var State = {
 	'connected': true,
 	'connection': false,
 	'disconnection': false
@@ -64,7 +63,7 @@ module.exports = {
 			if (userID == Bot.id)
 				return;
 
-			let data = {
+			var data = {
 				'user': user,
 				'userID': userID,
 				'channelID': channelID,
@@ -75,7 +74,7 @@ module.exports = {
 
 			if (Helpers.checkIsCommand(message)){
 
-				let key = Helpers.getCommandPart(message, '1');
+				var key = Helpers.getCommandPart(message, '1');
 
 				Bot.deleteMessage({
 					channel: channelID,
@@ -83,6 +82,7 @@ module.exports = {
 				}, function(err){
 
 					if(err){
+						console.log(err)
 						Logger.log('error', "Error on deleting message");
 					}
 
@@ -95,7 +95,7 @@ module.exports = {
 
 							if(res.adminCommand && Config.admin.indexOf(userID) == -1) {				
 
-								let message = `@${user} Vous n\'avez pas la permission d\'effectuer cette commande`;
+								var message = `@${user} Vous n\'avez pas la permission d\'effectuer cette commande`;
 
 								Bot.sendMessage({
 									'to': userID,
@@ -113,7 +113,7 @@ module.exports = {
 
 							}else{
 
-								let channel = !res.private ? channelID : userID;
+								var channel = !res.private ? channelID : userID;
 
 								Bot.sendMessage({
 									'to': channel,
@@ -140,7 +140,7 @@ module.exports = {
 		// Event when user change presence status
 		Bot.on('presence', function(user, userID, channelID, message, rawEvent){
 
-			let data = {
+			var data = {
 				'user': user,
 				'userID': userID,
 				'channelID': channelID,

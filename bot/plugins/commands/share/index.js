@@ -1,12 +1,12 @@
-import request from 'request';
+var request = require('request');
 
 module.exports = function(data, Config, Helpers) {
 
 	Configs.findOne({ 'name' : 'share' }, function (err, res) {
 
-		let message;
+		var message;
 
-		let user = Helpers.getCommandPart(data.message, '2');
+		var user = Helpers.getCommandPart(data.message, '2');
 
 		request(res.url, function (error, response, body) {
 			if (!error && response.statusCode == 200) {

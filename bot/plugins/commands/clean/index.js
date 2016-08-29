@@ -33,9 +33,11 @@ module.exports = function(data, Config, Helpers, Logger) {
           limit: 500000
         }, function(err, messageArr) {
 
+          console.log(messageArr);
+
           Logger.log('err', 'Error on clean all command');
 
-          for(let i=0; i < messageArr.length; i++){
+          for(var i=0; i < messageArr.length; i++){
             Bot.deleteMessage({
               channel: data.channelID,
               messageID: messageArr[i].id
@@ -54,7 +56,7 @@ module.exports = function(data, Config, Helpers, Logger) {
 
           Logger.log('err', 'Error on clean with ' + parseInt(value) + ' line');
 
-          for (let i=0; i < messageArr.length; i++) { 
+          for (var i=0; i < messageArr.length; i++) { 
 
             Bot.deleteMessage({
               channel: data.channelID,

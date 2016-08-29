@@ -5,7 +5,7 @@ module.exports = function(data, Config, Helpers) {
 
         Configs.findOne({ 'name' : 'code' }, function (err, res) {
 
-            let Pastee = require('pastee');
+            var Pastee = require('pastee');
 
             isCode(data.message, function(format) {
 
@@ -16,7 +16,7 @@ module.exports = function(data, Config, Helpers) {
                         messageID: data.rawEvent.d.id
                     });
 
-                    let paste = new Pastee(res.token);
+                    var paste = new Pastee(res.token);
 
                     paste.paste({
                         paste: data.message,
@@ -49,7 +49,7 @@ module.exports = function(data, Config, Helpers) {
 
 }
 
-const isCode = function(message, cb) {
+var isCode = function(message, cb) {
 
 
     String.prototype.m = function(condition) {
@@ -67,7 +67,7 @@ const isCode = function(message, cb) {
         return temp.capitalize();
     }
 
-    let lang_input = message;
+    var lang_input = message;
 
 
     function java(input) {

@@ -1,6 +1,6 @@
 'use strict';
 
-import fs 			from 'fs-extra';
+var fs = require('fs-extra');
 
 module.exports = {
 
@@ -13,7 +13,7 @@ module.exports = {
 
 	getConfig: function(save) {
 
-		let config = {};
+		var config = {};
 
 		config = fs.readJsonSync('config-file.json', { throws: false }) || config;
 
@@ -29,7 +29,7 @@ module.exports = {
 
 		config.getConstructorConfig = function(autorun) {
 
-			let constructorConfig = {};
+			var constructorConfig = {};
 
 			constructorConfig.email = config.email || null;
 			constructorConfig.password = config.password || null;
@@ -42,7 +42,7 @@ module.exports = {
 
 		config.getApiConfig = function() {
 
-			let apiConfig = {};
+			var apiConfig = {};
 
 			apiConfig.api_dev_key = config.API.pastebin.key;
 			apiConfig.api_user_name = config.API.pastebin.username;
@@ -62,7 +62,7 @@ module.exports = {
 
 	getCommandPart: function(message, part) {
 
-		message = message.replace(new RegExp(this.getConfig().commandPrefix), '');
+		message = message.replace(this.getConfig().commandPrefix, '');
 		return message.split(' ')[part - 1];
 
 	},

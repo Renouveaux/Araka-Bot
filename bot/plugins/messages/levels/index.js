@@ -46,9 +46,9 @@ function getRandomInt(min, max) {
 function getXP() {
 
 
-	let xp = 2075;
-	let n = -1;
-	let L = 0;
+	var xp = 2075;
+	var n = -1;
+	var L = 0;
 
 	while(n < xp){
 		n += Math.floor(Math.pow((L+1), 3) + 30 * Math.pow((L+1), 2) + 30 * (L+1) - 50);

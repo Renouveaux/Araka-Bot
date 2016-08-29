@@ -1,10 +1,10 @@
-import multiline from 'multiline.js';
+var multiline = require('multiline.js');
 
 module.exports = function(data, Config) {
 
-  let prefix = Config.commandPrefix;
+  var prefix = Config.commandPrefix;
 
-  const response = `
+  var response = `
   Le prefix de commande actuel est ${prefix}
 
   Voici la liste de mes commandes disponibles;

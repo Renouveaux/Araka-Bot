@@ -1,33 +1,108 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Angular 2 QuickStart</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <link rel="stylesheet" href="styles.css">
-    <!-- 1. Load libraries -->
-    <!-- IE required polyfills, in this exact order -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Araka is a easy to use discord bot">
+  <meta name="author" content="Renouveaux">
+
+  <title>Araka, a bot for Discord</title>
+
+  <link rel="shortcut icon" type="image/png" href="img/favico.png"/>
+  <link href="static/css/bootstrap.css" rel="stylesheet">
+  <link href="static/css/animate.css" rel="stylesheet">
+  <link href="static/css/morphext.css" rel="stylesheet">
+  <link href="static/css/skin.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+</head>
+
+<body class="home-body">
+
+  <nav class="navbar navbar-inverse home-navbar navbar-fixed-top animated bounceInDown">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Araka <span class="badge beta-badge">0.2.0</span></a>
+      </div>
+      
+
+
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" id="community">Community <b class="caret"></b></a>
+            <ul class="dropdown-menu" aria-labelledby="community">
+              <li><a href="https://discord.gg/0tOgeGSG9kVB6BRa" target="_blank">Discord</a></li>
+              <li><a target="_blank" href="https://github.com/cookkkie/mee6">Github</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+  </nav>
+
+  <!-- 3. Display the application -->
+
+  <!--<my-app>Loading...</my-app>-->
+
+  <div class="jumbotron home-jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 col-sm-12 animated bounceInLeft">
+          <h3>Introducing <strong>Araka</strong> the <img src="static/img/discord-logo.svg" class="discord-logo2"> bot </h3>
+          <h1>Release your <span id="rotating">!power,!mana,!chakra,!skill</span></h1>
+          <h2>for everyone in your <img src="static/img/discord.svg" class="discord-logo1"> server</h2>
+          <p>
+            <a href="#" class="btn btn-home btn-lg">Add to discord</a>
+            <a href="#" class="btn btn-about btn-lg">About</a>
+          </p>
+        </div>
+        <div class="col-md-5 hidden-sm hidden-xs text-center animated bounceInRight">
+        <!--<img src="static/img/meeseeks.png">-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
     <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
     <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>   
+
     <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-    <!-- 2. Configure SystemJS -->
+    <script src="node_modules/rxjs/bundles/Rx.umd.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-all.umd.js"></script>
+
+    <!-- 2. Load our 'modules' -->
+    <script src='app/app.component.js'></script>
+    <script src='app/main.js'></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="static/js/morphext.min.js"></script>
     <script>
-      System.config({
-        packages: {        
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
+      $("#rotating").Morphext({
+        animation: "bounceIn",
+        separator: ",",
+        speed: 2000,
+        complete: function () {
         }
       });
-      System.import('app/main')
-            .then(null, console.error.bind(console));
     </script>
-  </head>
-  <!-- 3. Display the application -->
-  <body>
-    <my-app>Loading...</my-app>
   </body>
-</html>
+  </html>

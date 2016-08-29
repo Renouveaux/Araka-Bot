@@ -1,6 +1,6 @@
 module.exports = function(data, Config, Helpers) {
 
-	let user = Helpers.getCommandPart(data.message, '2', Config);
+	var user = Helpers.getCommandPart(data.message, '2', Config);
 
 	if(typeof user !== 'undefined' && user.match(/<@[0-9]+>/gi).length == '1'){
 		Bot.sendMessage({

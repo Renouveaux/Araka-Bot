@@ -1,31 +1,25 @@
 var message = `
-Bonjour et bienvenue sur le chat de grafikart.fr.
+Salut à toi et bienvenue sur le serveur Discord l'Evolution est en marche.
 
-Quelques règles sont à observer lors de vos interactions avec les autres utilisateurs.
-Tous d'abord, personne n'est présent pour faire votre code à votre place.
-Si vous devez partager du code, merci d'utiliser les sites comme paste.ee ou codeshare.io, idem pour les images (lut.im).
-Il y a de tout comme développeur, et pas seulement ceux de votre langage, il va donc de soit de bien expliquer votre problème, le langage dans lequel vous coder, et partagez votre code.
-Sans voir, il est impossible d'aider.
+Premièrement et pour ne pas déroger aux règle, tu a accès aux #reglement du serveur dans le salon portant le même nom.
+Si cela est ta première venu, merci d'enregistrer un email pour ton compte Discord et d'informer un GM de la guils dont tu fait parti,
+de cette façons nous t'ajouterons au rôle adéquate. Si tu fait parti de plusieurs guilds, donnes la liste.
 
-Un peu de courtoisie ne fait pas de mal. Dites merci et restez poli.
+Les différents salons contienent chacun leur propre description pour plus de clarté. N'hésite pas à poster un message.
+Si tu a des questions, n'hesite pas à les poser. Si la question concerne les GM, tu peux directement mentionner le groupe GM, 
+de sorte que tous les GM soient au courant de la question et puisse te répondre le plus rapidement.
+Pour cela il te suffit d'écrire **@GM** Ton message.
 
-Des commandes de bot sont à votre disposition. En cas de trou de mémoire, tapez *!help* pour une liste des commandes disponibles.
-
-Le langage **SMS** est proscrit.
-
-Des channels différents ont été créé en fonction de ce que vous faites. 
-Le channel voice doit être utilisé en complément au chat vocal, pour éviter de perdre tous le monde dans le channel général.
-Respectez les channels Privé 1, 2 et 3. Si vous voyez des personnes dedans, et que vous n'êtes pas convié, ne vous incrustez pas.
-
-Enfin, faites-vous plaisir, et partagez. Notez qu'il n'est pas interdit de parler de tout et de rien.
+Pour information, je suis un bot, il n'est pas nécessaire de tenter de taper une discute avec moi, je ne suis pas très répondant.
+Sur ce Salut.
 `;
 
-import PouchDB from 'pouchdb';
+var PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-upsert'));
 
 module.exports = function(data, Config, Helpers){
 
-	let db = new PouchDB('dataBase/user');
+	var db = new PouchDB('dataBase/user');
 
 	if(data.rawEvent.d.status === 'online'){
 

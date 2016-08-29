@@ -104,7 +104,6 @@ console.log("...............................................".magenta);
  						}
  					}, function(err, httpResponse, body){
 
-
 						if(JSON.parse(body).length > 0){ // If a bot account exist for this user
 
 							inquirer.prompt([{
@@ -143,6 +142,7 @@ console.log("...............................................".magenta);
  }
 
  var getUserInfo = function(){
+
  	request.get({
  		url: 'https://discordapp.com/api/users/@me',
  		headers: {
@@ -283,6 +283,7 @@ console.log("...............................................".magenta);
  * Last part to create the configuration for the server app
  */
  var configureApp = function(botInfo){
+ 	
  	console.log("App configuration initiated");
 
  	let db = {};
@@ -322,11 +323,13 @@ console.log("...............................................".magenta);
  	}
  	], function(res){
 
+ 		let botName = (typeof botInfo.name !== 'undefined') ? botInfo.name : botInfo.username;
+
  		let config = {
  			"protectedKeys": [],
  			"allowedChannelIds": {},
  			"admin": "["+ user.id +"]",
- 			"botName": botInfo.name,
+ 			"botName": botName,
  			"debug": false,
  			"autoReconnect": res.autoreconnect,
  			"autorun": true,
@@ -335,7 +338,7 @@ console.log("...............................................".magenta);
  				"prefix" : "mongodb",
  				"host" : res.host,
  				"port" : res.port,
- 				"base" : botInfo.name.toLowerCase(),
+ 				"base" : botName.toLowerCase(),
  				"login" : res.login,
  				"pass" : res.password
  			}
@@ -353,6 +356,8 @@ console.log("...............................................".magenta);
  */
  var deleteBot = function(botId){
 
+ 	console.log("deleteBot".red);
+
  	request.del({
  		url: 'https://discordapp.com/api/oauth2/applications/'+ botId,
  		headers: {
@@ -368,6 +373,8 @@ console.log("...............................................".magenta);
  * Bot as been created and everything, what we do next ?
  */
  var whatNext = function(botInfo){
+
+ 	console.log("whatNext".red);
 
  	inquirer.prompt([
  	{
