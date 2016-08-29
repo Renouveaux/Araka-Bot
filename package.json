@@ -1,0 +1,30 @@
+{
+  "name": "araka",
+  "version": "2.0.0",
+  "description": "This is the new starting version for discord app.\r I create new one for respect the new API guidelines of Discord.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "fs-extra": "^0.26.7",
+    "inquirer": "^0.12.0",
+    "request": "^2.69.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "setup": "node setup.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Renouveaux/Araka-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Renouveaux/Araka-bot/issues"
+  },
+  "homepage": "https://github.com/Renouveaux/Araka-bot#readme"
+}
