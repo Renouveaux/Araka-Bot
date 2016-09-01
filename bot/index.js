@@ -27,10 +27,13 @@ var logger = new (winston.Logger)({
   ]
 });
 
-var connectStr = Config.database.prefix + '://' + Config.database.host + ':' + Config.database.port + '/' + Config.database.base;
-mongoose.connect(connectStr, {server:{auto_reconnect:true}});
-var db = mongoose.connection;
+mongoose.connect(Config.database.host + ':' + Config.database.port + '/' + Config.database.base, {
+  db: { native_parser: true },
+  user: Config.database.user || null,
+  pass: Config.database.pass || null
+});
 
+var db = mongoose.connection;
 /**
   *
   * Listen the database status
