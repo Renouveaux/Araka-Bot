@@ -300,11 +300,11 @@ console.log("...............................................".magenta);
  		default: "27017"
  	},{
  		type: 'input',
- 		message: 'The username if you have one',
+ 		message: 'Database login if you have one',
  		name: 'login'
  	},{
  		type: 'password',
- 		message: 'The password if you have one',
+ 		message: 'Database password if you have one',
  		name: 'password'
  	},{
  		type: 'input',

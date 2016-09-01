@@ -1,5 +1,5 @@
 // Import bot librairie
-var DiscordClient = require('discord.io');
+var Discord = require('discord.js');
 
 // Import system utilities
 var events        = require('events');
@@ -61,19 +61,17 @@ winston.handleExceptions(new winston.transports.File({ filename: '../exceptions.
 debugger;
 
 // Running bot instance
-GLOBAL.Bot = new DiscordClient(Config.getConstructorConfig());
+var Bot = new Discord.Client();
 console.log("Connection initiated");
 
 // Bot core initialisation
 
 // What we do when Bot is ready (Connected)
-Bot.on('ready', function(event){
+Bot.on('ready', function(){
 
 	console.info('Connected');
-
-	Events.init(Config, Helpers, logger)
-
-	// TODO
-	// Send event to client
+	Events.init(Bot, Config, Helpers, logger)
 
 });
+
+Bot.loginWithToken(Config.getConstructorConfig().token);

@@ -9,14 +9,13 @@
 
  var plugins = require('node-require-directory')(__dirname);
 
- module.exports = function(data, Config, Helpers) {
+ module.exports = function(Bot, userId, Config, Helpers) {
 
  	Object.keys(plugins).forEach(function(key) {
  		if (key === 'index') {
  			return;
  		};
- 		//require('./' + key)(data, Config, Helpers);
-
+ 		require('./' + key)(Bot, userId, Config, Helpers);
  	});
 
  }

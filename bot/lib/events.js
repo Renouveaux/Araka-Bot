@@ -15,7 +15,7 @@ var State = {
 
 module.exports = {
 
-	init : function(Config, Helpers, Logger){
+	init : function(Bot, Config, Helpers, Logger){
 
 		// Bot received error
 		Bot.on('err', function(e){
@@ -25,130 +25,60 @@ module.exports = {
 
 		// The bot was disconnected (probably discord server down)
 		Bot.on('disconnected', function(){
-
 			Logger.log('error', 'The bot was disconnected from the server');
-
-			if (State.disconnection == true)
-				return;
-
-			if (Config.autoReconnect != true)
-				return;
-
-			State.connected = false;
-			State.connection = true;
-
-			Bot.connect();
-
 		});
 
 
 		// Show any websocket message sent client (work if debug set to true in config file)
 		Bot.on('debug', function(rawEvent) {
-
 			if (!Config.debug)
 				return;
-
 			console.log('debug:','\n', rawEvent);
-
 		});
 
 
-		// All messages sent appears here
-		// user : The user's name.
-		// userID : The user's ID.
-		// channelID : The ID of the room where the bot received the message.
-		// message : The chat message.
-		Bot.on('message', function(user, userID, channelID, message, rawEvent) {
+		Bot.on('message', function(msg) {
 
-			if (userID == Bot.id)
-				return;
+			if (msg.content.startsWith(Helpers.getConfig().commandPrefix)){
 
-			var data = {
-				'user': user,
-				'userID': userID,
-				'channelID': channelID,
-				'message': message,
-				'rawEvent': rawEvent
-			}
+				var cmd = msg.content.split(" ")[0].replace(/\n/g, " ").substring(Helpers.getConfig().commandPrefix.length).toLowerCase();
+				var suffix = msg.content.replace(/\n/g, " ").substring(cmd.length + 2).trim();
+				var params = msg.cleanContent.substring(msg.cleanContent.indexOf(" ") + 1).split(/, ?/);
 
-
-			if (Helpers.checkIsCommand(message)){
-
-				var key = Helpers.getCommandPart(message, '1');
-
-				Bot.deleteMessage({
-					channel: channelID,
-					messageID: rawEvent.d.id
-				}, function(err){
-
+				msg.delete(1000, function(err){
 					if(err){
 						console.log(err)
 						Logger.log('error', "Error on deleting message");
 					}
 
-					Helpers.commandExist(key, function(err, res){
-
+					Helpers.commandExist(cmd, function(err, res){
 						if(err) 
 							return false;
 
 						if(res !== null && res.active){
-
-							if(res.adminCommand && Config.admin.indexOf(userID) == -1) {				
-
-								var message = `@${user} Vous n\'avez pas la permission d\'effectuer cette commande`;
-
-								Bot.sendMessage({
-									'to': userID,
-									'message': message
-								})
-
+							if(res.adminCommand && Config.admin.indexOf(msg.sender.id) == -1) {
+								Bot.sendMessage(msg.author, 'Vous n\'avez pas la permission d\'effectuer cette commande');
 								return;
-
 							}
 
 							if(res.fctn){
-
-
-								onCommands(data, Config, Helpers, Logger);
-
+								onCommands(Bot, cmd, params, msg, Config, Helpers, Logger);
 							}else{
-
-								var channel = !res.private ? channelID : userID;
-
-								Bot.sendMessage({
-									'to': channel,
-									'message': res.message
-								});
-
+								var channel = !res.private ? msg : msg.author;
+								Bot.sendMessage(channel, res.message);
 							}
-
 						}
-
-
 					});
-
 				});
-
-
 			}else{
-				onMessages(data, Config, Helpers, Logger);
+				onMessages(Bot, Config, Helpers, Logger);
 			}
-
 
 		});
 
 		// Event when user change presence status
-		Bot.on('presence', function(user, userID, channelID, message, rawEvent){
-
-			var data = {
-				'user': user,
-				'userID': userID,
-				'channelID': channelID,
-				'message': message,
-				'rawEvent': rawEvent
-			}
-			
-			onPresence(data, Config, Helpers, Logger);
+		Bot.on('presence', function(o, n){
+			onPresence(Bot, o, n);
 		})
 
 

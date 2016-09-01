@@ -2,8 +2,6 @@
 
 module.exports = function(data, Config, Helpers){
 
-	getXP();
-
 	Configs.findOne({name: 'levels'}, function(err, res){
 		
 

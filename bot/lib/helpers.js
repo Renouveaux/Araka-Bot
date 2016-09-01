@@ -27,12 +27,10 @@ module.exports = {
 
 		config.commandPrefix.replace(new RegExp(' ', 'g'), '')
 
-		config.getConstructorConfig = function(autorun) {
+		config.getConstructorConfig = function() {
 
 			var constructorConfig = {};
 
-			constructorConfig.email = config.email || null;
-			constructorConfig.password = config.password || null;
 			constructorConfig.token = config.token ||null;
 			constructorConfig.autorun = config.autorun || false;
 
