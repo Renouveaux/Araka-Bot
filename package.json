@@ -4,7 +4,6 @@
   "description": "This is the new starting version for discord app.\r I create new one for respect the new API guidelines of Discord.",
   "main": "index.js",
   "dependencies": {
-    "auto-updater": "^1.0.2",
     "chalk": "^1.1.1",
     "colors": "^1.1.2",
     "debug": "^2.2.0",
