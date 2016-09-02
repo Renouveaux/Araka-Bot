@@ -6,7 +6,7 @@
  * @param Helpers
  */
 
- module.exports = function(Bot, data, Config, Helpers) {
+ module.exports = function(Bot, msg, Config, Helpers, Logger) {
  	var dir = require('node-require-directory')(__dirname);
 
  	Object.keys(dir).forEach(function(key) {
@@ -16,7 +16,7 @@
 
  		Messages.findOne({ 'name' : key }, function (err, res) {
  			if(res !== null && res.active){
- 				//require('./' + key)(Bot, data, Config, Helpers);
+ 				require('./' + key)(Bot, msg, Config, Helpers, Logger);
  			}
  		})
 

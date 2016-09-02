@@ -71,7 +71,7 @@ module.exports = {
 					});
 				});
 			}else{
-				onMessages(Bot, Config, Helpers, Logger);
+				onMessages(Bot, msg, Config, Helpers, Logger);
 			}
 
 		});
