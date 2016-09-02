@@ -1,8 +1,8 @@
 node_modules
+config-file.json
 application.log
 bot_Information.txt
 araka.sublime-project
 araka.sublime-workspace
 doc
 exceptions.log
-web
