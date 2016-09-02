@@ -6,10 +6,41 @@
 
     // If a user is mentionned
     if(msg.mentions[0]){
-        console.log("true")
-    }else{
 
-        Levels.findOne({userID : msg.author.id}, function(err, d){
+        get_playerInfo(msg.mentions[0].id, function(err, d){
+            if(err)
+                throw err;
+            if(typeof d === "string"){
+                Bot.sendMessage(msg, "<@"+msg.mentions[0].id+"> " + d)
+            }else{
+                Bot.sendMessage(msg, "<@"+msg.mentions[0].id+"> a : " + d.playerTotalXP + "pts d'xp, Level : " + d.player_lvl + ". Xp manquant pour prochain level " + d.remaining_xp)
+            }
+        })
+
+    }else{
+        get_playerInfo(msg.author.id, function(err, d){
+            if(err)
+                throw err;
+            if(typeof d === "string"){
+                Bot.reply(msg, "Tu n'a pas encore de point, commence à écrire pour augmenter ton niveau")
+            }else{
+                Bot.reply(msg, "Tu a : " + d.playerTotalXP + "pts d'xp, Level : " + d.player_lvl + ". Xp manquant pour prochain level " + d.remaining_xp);
+            }
+            
+        })
+
+    }
+};
+
+var get_playerInfo = function(playerID, cb){
+    Levels.findOne({userID : playerID}, function(err, d){
+
+        if(err)
+            throw err
+
+        if(d === null){
+            cb(err, "n'a pas encore gagné d'XP")
+        }else{
 
             var playerTotalXP = d.XP;
             var player_lvl = get_level_from_xp(d.XP);
@@ -20,10 +51,14 @@
             }
             remaining_xp = Math.floor(x - playerTotalXP);
 
-            Bot.reply(msg, "Tu a : " + playerTotalXP + "pts d'xp, Level : " + player_lvl + ". Xp manquant pour prochain level " + remaining_xp);
-        })
-    }
-};
+            cb(err, {
+                'playerTotalXP' : playerTotalXP,
+                'player_lvl' : player_lvl,
+                'remaining_xp' : remaining_xp
+            })
+        }
+    })
+}
 
 var get_level_xp = function(n){
 	return Math.floor(Math.pow((n+1), 3) + 30 * Math.pow((n+1), 2) + 30 * (n+1) - 50);
