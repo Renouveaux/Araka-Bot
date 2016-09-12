@@ -57,7 +57,7 @@ db.on('disconnected', function() {
 });
 
 // Bootstrap Models
-require('./plugins/models');
+require('../models');
 
 winston.handleExceptions(new winston.transports.File({ filename: '../exceptions.log' }))
 
@@ -72,9 +72,9 @@ console.log("Connection initiated");
 // What we do when Bot is ready (Connected)
 Bot.on('ready', function(){
 
-	console.info('Connected');
-	Events.init(Bot, Config, Helpers, logger)
+  console.info('Connected');
+  Events.init(Bot, Config, Helpers, logger)
 
 });
 
-Bot.loginWithToken(Config.getConstructorConfig().token);
+Bot.login(Config.getConstructorConfig().token);

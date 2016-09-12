@@ -1,0 +1,54 @@
+@import "mixins.less";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+snap-content, [snap\:content], [snap-content], [data-snap-content], [x-snap-content], .snap-content, .x-snap-content,
+snap-drawers, [snap\:drawers], [snap-drawers], [data-snap-drawers], [x-snap-drawers], .snap-drawers, .x-snap-drawers,
+.snap-drawers,
+.snap-content {
+  .absolute;
+  .tall;
+  .wide;
+}
+
+snap-drawer, [snap\:drawer], [snap-drawer], [data-snap-drawer], [x-snap-drawer], .snap-drawer, .x-snap-drawer,
+.snap-drawer {
+  .absolute;
+  .tall;
+  overflow: auto;
+  .smooth-scroll;
+  width: 265px;
+}
+
+.snap-content {
+  z-index: 2;
+  .translate3d(0, 0, 0);
+  overflow: auto;
+  .overflow-scrolling(touch);
+}
+
+.snap-drawer-left {
+  left: 0;
+  z-index: 1;
+}
+
+.snap-drawer-right {
+  right: 0;
+  z-index: 1;
+}
+
+.snapjs-left .snap-drawer-right,
+.snapjs-right .snap-drawer-left {
+  display: none;
+}
+
+.snapjs-expand-left .snap-drawer-left,
+.snapjs-expand-right .snap-drawer-right {
+  width: 100%;
+}

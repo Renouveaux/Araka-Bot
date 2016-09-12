@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="ArakaAdmin">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Araka Admin</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="assets/css/less.css">
+  <link rel="stylesheet" href="assets/css/sass.css">
+
+</head>
+<body>
+
+ <div class="dashboard-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 main">
+
+        <span class="bg-dark" ng-login ng-if="!isAuthenticated"></span>
+
+        <div ng-if="isAuthenticated">
+          <div ng-include="'menu.html'" ng-controller="AppController"></div>
+
+          <snap-content class="bg-dark" ui-view></snap-content>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="assets/js/app.js"></script>  
+
+</body>
+</html>

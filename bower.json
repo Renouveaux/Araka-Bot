@@ -1,0 +1,44 @@
+{
+	"name": "arak-admin",
+	"version": "1.0.0",
+	"authors": [
+		"Renouveaux"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components"
+	],
+	"dependencies": {
+		"Ionicons": "ionicons#~2.0.1",
+		"animate.css": "~3.4.0",
+		"bootstrap": "~3.3.5",
+		"bootstrap-select": "~1.9.3",
+		"bootstrap-switch": "~3.3.2",
+		"bootstrap-tagsinput": "~0.5.0",
+		"font-awesome": "fontawesome#~4.4.0",
+		"fullcalendar": "~2.4.0",
+		"highlight": "~8.8.0"
+	},
+	"overrides": {
+		"bootstrap": {
+			"main": [
+				"dist/css/bootstrap.css",
+				"js/dropdown.js",
+				"./dist/fonts/**.*"
+			]
+		},
+		"font-awesome": {
+			"main": [
+				"css/font-awesome.css",
+				"fonts/FontAwesome.otf",
+				"fonts/fontawesome-webfont.eot",
+				"fonts/fontawesome-webfont.svg",
+				"fonts/fontawesome-webfont.ttf",
+				"fonts/fontawesome-webfont.woff",
+				"fonts/fontawesome-webfont.woff2"
+			]
+		}
+	}
+}
